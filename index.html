@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VariSahayak – vari Pilgrimage Management System</title>
+  <meta name="description" content="VariSahayak is an AI-powered management platform for the vari pilgrimage — coordinating volunteers, safety, logistics, and crowd management in real time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ========== TOP NAV ========== -->
+<header class="navbar" id="navbar">
+  <div class="nav-brand">
+    <span class="brand-icon">🪔</span>
+    <span class="brand-name">VariSahayak</span>
+  </div>
+  <nav class="nav-links" id="navLinks">
+    <a href="#" class="nav-item active" data-page="home" onclick="showPage('home',this)">Home</a>
+    <a href="#" class="nav-item" data-page="registration" onclick="showPage('registration',this)">Registration</a>
+    <a href="#" class="nav-item" data-page="dashboard" onclick="showPage('dashboard',this)">Dashboard</a>
+    <a href="#" class="nav-item" data-page="map" onclick="showPage('map',this)">Live Map</a>
+    <a href="#" class="nav-item" data-page="communication" onclick="showPage('communication',this)">Communication</a>
+    <a href="#" class="nav-item" data-page="lostfound" onclick="showPage('lostfound',this)">Lost &amp; Found</a>
+    <a href="#" class="nav-item" data-page="ai" onclick="showPage('ai',this)">AI Alerts</a>
+    <a href="#" class="nav-item" data-page="gamification" onclick="showPage('gamification',this)">Rewards</a>
+    <a href="#" class="nav-item nav-item-scan" data-page="qrscanner" onclick="showPage('qrscanner',this)">📷 QR Scanner</a>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">&#9776;</button>
+</header>
+
+<!-- ========== PAGES ========== -->
+<main id="main">
+
+  <!-- ===== HOME ===== -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">🪔 vari Pilgrimage 2025</div>
+        <h1 class="hero-title">VariSahayak</h1>
+        <p class="hero-subtitle">A unified digital platform for managing the vari pilgrimage — coordinating <strong>volunteers, safety, logistics,</strong> and <strong>AI-powered crowd management</strong> in real time.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="showPage('registration', document.querySelector('[data-page=registration]'))">Get Started</button>
+          <button class="btn btn-outline" onclick="showPage('dashboard', document.querySelector('[data-page=dashboard]'))">View Dashboard</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="stat-card"><div class="stat-num">2.5M+</div><div class="stat-label">Pilgrims Served</div></div>
+        <div class="stat-card"><div class="stat-num">12,000+</div><div class="stat-label">Volunteers</div></div>
+        <div class="stat-card"><div class="stat-num">250km</div><div class="stat-label">vari Track</div></div>
+        <div class="stat-card"><div class="stat-num">21 Days</div><div class="stat-label">Event Duration</div></div>
+      </div>
+    </div>
+
+
+    <div class="section-title-wrap" style="margin-top:60px">
+      <h2 class="section-title">Key Features</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card" onclick="showPage('registration', document.querySelector('[data-page=registration]'))"><div class="feat-icon">📝</div><div class="feat-title">Registration Portal</div><div class="feat-desc">Bulk Excel upload, online forms, QR badge generation for all stakeholders.</div></div>
+      <div class="feat-card" onclick="showPage('dashboard', document.querySelector('[data-page=dashboard]'))"><div class="feat-icon">📊</div><div class="feat-title">Unified Dashboard</div><div class="feat-desc">Real-time overview for doctors, NGOs, police, and volunteer coordinators.</div></div>
+      <div class="feat-card" onclick="showPage('map', document.querySelector('[data-page=map]'))"><div class="feat-icon">🗺️</div><div class="feat-title">Live Map &amp; Tracking</div><div class="feat-desc">vari track, crowd hotspots, volunteer positions, and emergency zones.</div></div>
+      <div class="feat-card" onclick="showPage('communication', document.querySelector('[data-page=communication]'))"><div class="feat-icon">📡</div><div class="feat-title">Communication</div><div class="feat-desc">Push-to-talk walkie-talkie channel, SOS alerts, flash notifications.</div></div>
+      <div class="feat-card" onclick="showPage('lostfound', document.querySelector('[data-page=lostfound]'))"><div class="feat-icon">🔍</div><div class="feat-title">Lost &amp; Found</div><div class="feat-desc">QR-tagged item logging, volunteer allocation, real-time status tracking.</div></div>
+      <div class="feat-card" onclick="showPage('ai', document.querySelector('[data-page=ai]'))"><div class="feat-icon">🤖</div><div class="feat-title">AI Alerts &amp; NLP</div><div class="feat-desc">Intelligent crowd-flow decisions, NLP-based alerts from incident reports.</div></div>
+    </div>
+  </section>
+
+  <!-- ===== REGISTRATION ===== -->
+  <section class="page" id="page-registration">
+    <div class="page-header">
+      <h1>Registration Portal</h1>
+      <p>Register volunteers, police, NGOs, doctors, and generate QR team badges — individually or via bulk Excel upload.</p>
+    </div>
+
+    <div class="tabs" id="regTabs">
+      <button class="tab active" onclick="switchTab('regTabs','reg-individual',this)">Individual Registration</button>
+      <button class="tab" onclick="switchTab('regTabs','reg-bulk',this)">Bulk Upload (Excel)</button>
+      <button class="tab" onclick="switchTab('regTabs','reg-badge',this)">QR Badge Preview</button>
+    </div>
+
+    <div class="tab-content active" id="reg-individual">
+      <div class="form-card">
+        <h3 class="form-section-title">Volunteer / Worker Registration</h3>
+        <div class="form-grid">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="reg-name" placeholder="e.g. Ramesh Patil" /></div>
+          <div class="form-group"><label>Mobile Number *</label><input type="tel" id="reg-mobile" placeholder="e.g. 9876543210" /></div>
+          <div class="form-group">
+            <label>Role *</label>
+            <select id="reg-role">
+              <option value="">Select Role</option>
+              <option>Volunteer</option>
+              <option>Police Officer</option>
+              <option>Doctor / Medical</option>
+              <option>NGO Worker</option>
+              <option>Area Coordinator</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Assigned Area</label>
+            <select id="reg-area">
+              <option value="">Select Area</option>
+              <option>Pune – Swargate</option>
+              <option>Saswad</option>
+              <option>Jejuri</option>
+              <option>Lonand</option>
+              <option>Phaltan</option>
+              <option>Pandharpur – Entry Gate</option>
+              <option>Pandharpur – Temple Zone</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Task / Specialization</label>
+            <select id="reg-task">
+              <option value="">Select Task</option>
+              <option>Crowd Management</option>
+              <option>Medical Aid</option>
+              <option>Food &amp; Water Distribution</option>
+              <option>Lost &amp; Found</option>
+              <option>Security Patrol</option>
+              <option>Route Guidance</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Affiliation / Organization</label><input type="text" id="reg-org" placeholder="e.g. Red Cross, VPD, etc." /></div>
+        </div>
+        <button class="btn btn-primary" onclick="registerPerson()">Register &amp; Generate ID</button>
+      </div>
+      <div id="reg-result" class="hidden"></div>
+    </div>
+
+    <div class="tab-content" id="reg-bulk">
+      <div class="form-card">
+        <h3 class="form-section-title">Bulk Registration via Excel</h3>
+        <div class="upload-zone" id="uploadZone"
+             ondragover="event.preventDefault(); this.classList.add('drag-over')"
+             ondragleave="this.classList.remove('drag-over')"
+             ondrop="handleDrop(event)">
+          <div class="upload-icon">📂</div>
+          <p><strong>Drag &amp; drop your Excel (.xlsx) file here</strong></p>
+          <p class="upload-sub">or click below to browse</p>
+          <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileSelect(event)" />
+          <button class="btn btn-outline" onclick="document.getElementById('excelFile').click()">Browse File</button>
+          <p class="upload-note">Required columns: Name, Mobile, Role, Area, Task, Organization</p>
+        </div>
+        <div id="bulk-preview" class="hidden">
+          <h4 style="margin-bottom:12px">Preview (sample rows)</h4>
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Mobile</th><th>Role</th><th>Area</th><th>Status</th></tr></thead>
+            <tbody id="bulk-table-body"></tbody>
+          </table>
+          <button class="btn btn-primary" style="margin-top:16px" onclick="processBulk()">Process &amp; Generate IDs</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="reg-badge">
+      <div class="badge-demo">
+        <h3 class="form-section-title">Sample QR Badge</h3>
+        <div class="badge-card" id="badge-preview">
+          <div class="badge-header-bar">
+            <span class="badge-logo">🪔 VariSahayak</span>
+            <span class="badge-year">vari 2025</span>
+          </div>
+          <div class="badge-body">
+            <div class="badge-qr">
+              <div class="qr-placeholder">
+                <svg viewBox="0 0 100 100" width="100" height="100" class="qr-svg">
+                  <rect width="100" height="100" fill="white"/>
+                  <rect x="10" y="10" width="30" height="30" fill="none" stroke="#222" stroke-width="4"/>
+                  <rect x="15" y="15" width="20" height="20" fill="#222"/>
+                  <rect x="60" y="10" width="30" height="30" fill="none" stroke="#222" stroke-width="4"/>
+                  <rect x="65" y="15" width="20" height="20" fill="#222"/>
+                  <rect x="10" y="60" width="30" height="30" fill="none" stroke="#222" stroke-width="4"/>
+                  <rect x="15" y="65" width="20" height="20" fill="#222"/>
+                  <rect x="48" y="48" width="6" height="6" fill="#222"/>
+                  <rect x="58" y="48" width="6" height="6" fill="#222"/>
+                  <rect x="68" y="48" width="6" height="6" fill="#222"/>
+                  <rect x="78" y="48" width="6" height="6" fill="#222"/>
+                  <rect x="48" y="58" width="6" height="6" fill="#222"/>
+                  <rect x="68" y="58" width="6" height="6" fill="#222"/>
+                  <rect x="78" y="58" width="6" height="6" fill="#222"/>
+                  <rect x="48" y="68" width="6" height="6" fill="#222"/>
+                  <rect x="58" y="68" width="6" height="6" fill="#222"/>
+                  <rect x="78" y="68" width="6" height="6" fill="#222"/>
+                  <rect x="48" y="78" width="6" height="6" fill="#222"/>
+                  <rect x="68" y="78" width="6" height="6" fill="#222"/>
+                  <rect x="78" y="78" width="6" height="6" fill="#222"/>
+                </svg>
+                <p style="font-size:11px;margin-top:4px;color:#555">QR Code</p>
+              </div>
+            </div>
+            <div class="badge-info">
+              <div class="badge-id">ID: VS-2025-0047</div>
+              <div class="badge-name">Ramesh Patil</div>
+              <div class="badge-role">🚑 Medical – Doctor</div>
+              <div class="badge-area">📍 Pandharpur – Temple Zone</div>
+              <div class="badge-org">Red Cross Maharashtra</div>
+            </div>
+          </div>
+          <div class="badge-footer-bar">Scan QR to verify · Emergency: 1800-XXX-XXXX</div>
+        </div>
+        <div class="badge-actions" style="margin-top:20px;display:flex;gap:12px">
+          <button class="btn btn-primary" onclick="showToast('Badge sent to printer!')">🖨️ Print Badge</button>
+          <button class="btn btn-outline" onclick="showToast('PDF downloaded!')">⬇️ Download PDF</button>
+        </div>
+        <p class="badge-note">QR badges are printed and laminated. Each badge links to a live volunteer profile with real-time location and task status.</p>
+      </div>
+    </div>
+
+    <div class="section-title-wrap" style="margin-top:50px">
+      <h2 class="section-title">Registered Members</h2>
+    </div>
+    <div class="filter-bar">
+      <select onchange="filterTable(this.value)">
+        <option value="">All Roles</option>
+        <option>Volunteer</option>
+        <option>Police Officer</option>
+        <option>Doctor / Medical</option>
+        <option>NGO Worker</option>
+        <option>Area Coordinator</option>
+      </select>
+      <input type="text" placeholder="Search by name or ID..." oninput="searchTable(this.value)" />
+    </div>
+    <table class="data-table" id="memberTable">
+      <thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Area</th><th>Task</th><th>Status</th></tr></thead>
+      <tbody id="memberTableBody">
+        <tr><td>VS-2025-0001</td><td>Suresh Kale</td><td>Volunteer</td><td>Pune – Swargate</td><td>Crowd Management</td><td><span class="badge-status active">Active</span></td></tr>
+        <tr><td>VS-2025-0002</td><td>Dr. Anita More</td><td>Doctor / Medical</td><td>Pandharpur – Temple Zone</td><td>Medical Aid</td><td><span class="badge-status active">Active</span></td></tr>
+        <tr><td>VS-2025-0003</td><td>Constable Vivek Rane</td><td>Police Officer</td><td>Lonand</td><td>Security Patrol</td><td><span class="badge-status active">Active</span></td></tr>
+        <tr><td>VS-2025-0004</td><td>Priya Deshmukh</td><td>NGO Worker</td><td>Jejuri</td><td>Food &amp; Water</td><td><span class="badge-status on-duty">On Duty</span></td></tr>
+        <tr><td>VS-2025-0005</td><td>Mahesh Shinde</td><td>Area Coordinator</td><td>Saswad</td><td>Route Guidance</td><td><span class="badge-status off">Off Shift</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===== DASHBOARD ===== -->
+  <section class="page" id="page-dashboard">
+    <div class="page-header">
+      <h1>Unified Dashboard</h1>
+      <p>Real-time status overview for administrators, area coordinators, and all ground teams.</p>
+    </div>
+
+    <div class="role-switcher">
+      <span>View as:</span>
+      <button class="role-btn active" onclick="switchRole('admin',this)">Admin</button>
+      <button class="role-btn" onclick="switchRole('doctor',this)">Doctor</button>
+      <button class="role-btn" onclick="switchRole('police',this)">Police</button>
+      <button class="role-btn" onclick="switchRole('ngo',this)">NGO</button>
+      <button class="role-btn" onclick="switchRole('volunteer',this)">Volunteer</button>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card blue"><div class="kpi-icon">👥</div><div class="kpi-num" id="kpi-total">12,430</div><div class="kpi-label">Total Registered</div><div class="kpi-change up">↑ 320 today</div></div>
+      <div class="kpi-card green"><div class="kpi-icon">✅</div><div class="kpi-num" id="kpi-active">9,812</div><div class="kpi-label">Active On Duty</div><div class="kpi-change up">↑ 94%</div></div>
+      <div class="kpi-card orange"><div class="kpi-icon">🚨</div><div class="kpi-num" id="kpi-sos">3</div><div class="kpi-label">Active SOS Alerts</div><div class="kpi-change down">↓ 2 resolved</div></div>
+      <div class="kpi-card purple"><div class="kpi-icon">🔍</div><div class="kpi-num" id="kpi-lf">27</div><div class="kpi-label">Lost &amp; Found Cases</div><div class="kpi-change">18 resolved</div></div>
+    </div>
+
+    <div class="dash-two-col">
+      <div class="dash-col">
+        <div class="dash-widget">
+          <h3 class="widget-title">Volunteer Distribution by Area</h3>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Pandharpur Temple</span><div class="bar-track"><div class="bar-fill" style="width:85%">2,100</div></div></div>
+            <div class="bar-row"><span class="bar-label">Pune – Swargate</span><div class="bar-track"><div class="bar-fill" style="width:70%">1,750</div></div></div>
+            <div class="bar-row"><span class="bar-label">Saswad</span><div class="bar-track"><div class="bar-fill" style="width:50%">1,240</div></div></div>
+            <div class="bar-row"><span class="bar-label">Jejuri</span><div class="bar-track"><div class="bar-fill" style="width:40%">1,010</div></div></div>
+            <div class="bar-row"><span class="bar-label">Lonand</span><div class="bar-track"><div class="bar-fill" style="width:30%">740</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phaltan</span><div class="bar-track"><div class="bar-fill" style="width:22%">550</div></div></div>
+          </div>
+        </div>
+
+        <div class="dash-widget">
+          <h3 class="widget-title">Role Breakdown</h3>
+          <div class="donut-chart-wrap">
+            <div class="donut-legend">
+              <div class="legend-item"><span class="dot blue"></span>Volunteers – 68%</div>
+              <div class="legend-item"><span class="dot green"></span>Police – 14%</div>
+              <div class="legend-item"><span class="dot orange"></span>Medical – 10%</div>
+              <div class="legend-item"><span class="dot purple"></span>NGO – 5%</div>
+              <div class="legend-item"><span class="dot red"></span>Coordinators – 3%</div>
+            </div>
+            <div class="donut-visual">
+              <svg viewBox="0 0 36 36" class="donut-svg">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e9ecef" stroke-width="3.2"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#4361EE" stroke-width="3.2" stroke-dasharray="68 32" stroke-dashoffset="25"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#2DC653" stroke-width="3.2" stroke-dasharray="14 86" stroke-dashoffset="-43"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#F5A623" stroke-width="3.2" stroke-dasharray="10 90" stroke-dashoffset="-57"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#A855F7" stroke-width="3.2" stroke-dasharray="5 95" stroke-dashoffset="-67"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-col">
+        <div class="dash-widget">
+          <h3 class="widget-title">Live Alerts &amp; Incidents</h3>
+          <div class="alert-list" id="alertList">
+            <div class="alert-item sos">
+              <div class="alert-icon">🆘</div>
+              <div class="alert-body"><div class="alert-title">SOS – Medical Emergency</div><div class="alert-loc">📍 Lonand Bridge, km 142</div><div class="alert-time">2 min ago</div></div>
+              <button class="btn-sm green" onclick="resolveAlert(this)">Resolve</button>
+            </div>
+            <div class="alert-item warning">
+              <div class="alert-icon">⚠️</div>
+              <div class="alert-body"><div class="alert-title">Crowd Density Critical</div><div class="alert-loc">📍 Pandharpur Entry Gate</div><div class="alert-time">8 min ago</div></div>
+              <button class="btn-sm orange" onclick="resolveAlert(this)">Assign Team</button>
+            </div>
+            <div class="alert-item info">
+              <div class="alert-icon">ℹ️</div>
+              <div class="alert-body"><div class="alert-title">Lost Child Reported</div><div class="alert-loc">📍 Saswad Market, km 45</div><div class="alert-time">15 min ago</div></div>
+              <button class="btn-sm blue" onclick="resolveAlert(this)">View Case</button>
+            </div>
+            <div class="alert-item success">
+              <div class="alert-icon">✅</div>
+              <div class="alert-body"><div class="alert-title">Medical Camp – Supplies Restocked</div><div class="alert-loc">📍 Jejuri Camp 3</div><div class="alert-time">22 min ago</div></div>
+              <button class="btn-sm grey" disabled>Done</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-widget">
+          <h3 class="widget-title">Worker Roster – Quick View</h3>
+          <div class="roster-grid">
+            <div class="roster-item"><div class="roster-role">🚑 Medical</div><div class="roster-count">1,240</div><div class="roster-bar"><div class="rb-fill green" style="width:88%"></div></div></div>
+            <div class="roster-item"><div class="roster-role">👮 Police</div><div class="roster-count">1,720</div><div class="roster-bar"><div class="rb-fill blue" style="width:95%"></div></div></div>
+            <div class="roster-item"><div class="roster-role">🤝 NGO</div><div class="roster-count">620</div><div class="roster-bar"><div class="rb-fill purple" style="width:75%"></div></div></div>
+            <div class="roster-item"><div class="roster-role">🙋 Volunteer</div><div class="roster-count">8,430</div><div class="roster-bar"><div class="rb-fill orange" style="width:92%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIVE MAP ===== -->
+  <section class="page" id="page-map">
+    <div class="page-header">
+      <h1>Live Map &amp; Tracking</h1>
+      <p>Real-time visualization of the vari track, crowd density, volunteer positions, and emergency zones.</p>
+    </div>
+
+    <div class="map-layout">
+      <div class="map-sidebar">
+        <h3>Map Layers</h3>
+        <div class="layer-toggle">
+          <label class="toggle-item"><input type="checkbox" checked onchange="toggleLayer('volunteers')" /><span class="toggle-dot blue"></span> Volunteers</label>
+          <label class="toggle-item"><input type="checkbox" checked onchange="toggleLayer('crowd')" /><span class="toggle-dot orange"></span> Crowd Density</label>
+          <label class="toggle-item"><input type="checkbox" checked onchange="toggleLayer('medical')" /><span class="toggle-dot red"></span> Medical Camps</label>
+          <label class="toggle-item"><input type="checkbox" checked onchange="toggleLayer('route')" /><span class="toggle-dot green"></span> vari Route</label>
+        </div>
+
+        <h3 style="margin-top:20px">Checkpoints</h3>
+        <div class="checkpoint-list">
+          <div class="cp-item active" onclick="selectCheckpoint(this, 'Pune – Swargate', '2,430', 'Normal', '320 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Pune – Swargate</div><div class="cp-info">2,430 pilgrims/hr</div></div></div>
+          <div class="cp-item" onclick="selectCheckpoint(this, 'Saswad', '1,820', 'Normal', '185 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Saswad</div><div class="cp-info">1,820 pilgrims/hr</div></div></div>
+          <div class="cp-item" onclick="selectCheckpoint(this, 'Jejuri', '3,100', 'Elevated', '410 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Jejuri</div><div class="cp-info">3,100 pilgrims/hr</div></div></div>
+          <div class="cp-item" onclick="selectCheckpoint(this, 'Lonand', '4,800', 'High Density', '540 volunteers')"><div class="cp-dot orange"></div><div><div class="cp-name">Lonand</div><div class="cp-info">⚠️ High Density</div></div></div>
+          <div class="cp-item" onclick="selectCheckpoint(this, 'Phaltan', '1,210', 'Normal', '210 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Phaltan</div><div class="cp-info">1,210 pilgrims/hr</div></div></div>
+          <div class="cp-item" onclick="selectCheckpoint(this, 'Pandharpur Entry', '6,200', 'CRITICAL – SOS Active', '820 volunteers')"><div class="cp-dot red"></div><div><div class="cp-name">Pandharpur Entry</div><div class="cp-info">🔴 Critical – SOS</div></div></div>
+        </div>
+      </div>
+
+      <div class="map-container">
+        <div class="map-canvas" id="mapCanvas">
+          <svg viewBox="0 0 900 500" class="map-svg" id="mapSvg">
+            <rect width="900" height="500" fill="#EEF2F7"/>
+            <ellipse cx="250" cy="200" rx="40" ry="20" fill="#BFD7EA" opacity="0.7"/>
+            <ellipse cx="700" cy="350" rx="60" ry="25" fill="#BFD7EA" opacity="0.7"/>
+            <path class="route-path" d="M 80,80 Q 200,120 300,180 Q 420,240 500,280 Q 620,330 700,350 Q 780,370 840,420" stroke="#2DC653" stroke-width="5" fill="none" stroke-dasharray="10,4" stroke-linecap="round"/>
+            <ellipse id="crowd-lonand" cx="500" cy="280" rx="60" ry="35" fill="#F5A623" opacity="0.35"/>
+            <ellipse id="crowd-pandharpur" cx="750" cy="390" rx="80" ry="45" fill="#E74C3C" opacity="0.3"/>
+            <ellipse id="crowd-jejuri" cx="340" cy="200" rx="50" ry="30" fill="#F5A623" opacity="0.25"/>
+            <g id="volunteers-layer">
+              <circle cx="120" cy="95" r="8" fill="#4361EE"/><text x="120" y="99" text-anchor="middle" font-size="8" fill="white">V</text>
+              <circle cx="300" cy="185" r="8" fill="#4361EE"/><text x="300" y="189" text-anchor="middle" font-size="8" fill="white">V</text>
+              <circle cx="460" cy="265" r="8" fill="#4361EE"/><text x="460" y="269" text-anchor="middle" font-size="8" fill="white">V</text>
+              <circle cx="680" cy="345" r="8" fill="#4361EE"/><text x="680" y="349" text-anchor="middle" font-size="8" fill="white">V</text>
+            </g>
+            <g id="medical-layer">
+              <rect x="225" y="155" width="20" height="20" fill="#E74C3C" rx="3"/><text x="235" y="169" text-anchor="middle" font-size="10" fill="white">+</text>
+              <rect x="480" y="255" width="20" height="20" fill="#E74C3C" rx="3"/><text x="490" y="269" text-anchor="middle" font-size="10" fill="white">+</text>
+              <rect x="720" y="360" width="20" height="20" fill="#E74C3C" rx="3"/><text x="730" y="374" text-anchor="middle" font-size="10" fill="white">+</text>
+            </g>
+            <text x="80" y="72" font-size="11" fill="#333" font-weight="600">Pune</text>
+            <text x="240" y="172" font-size="11" fill="#333" font-weight="600">Saswad</text>
+            <text x="315" y="196" font-size="11" fill="#333" font-weight="600">Jejuri</text>
+            <text x="478" y="268" font-size="11" fill="#D97706" font-weight="600">Lonand ⚠</text>
+            <text x="640" y="336" font-size="11" fill="#333" font-weight="600">Phaltan</text>
+            <text x="758" y="412" font-size="11" fill="#E74C3C" font-weight="700">Pandharpur 🔴</text>
+            <circle cx="80" cy="80" r="10" fill="#2DC653" stroke="white" stroke-width="2"/>
+            <circle cx="260" cy="183" r="10" fill="#2DC653" stroke="white" stroke-width="2"/>
+            <circle cx="350" cy="205" r="10" fill="#2DC653" stroke="white" stroke-width="2"/>
+            <circle cx="510" cy="283" r="10" fill="#F5A623" stroke="white" stroke-width="2"/>
+            <circle cx="670" cy="348" r="10" fill="#2DC653" stroke="white" stroke-width="2"/>
+            <circle cx="840" cy="420" r="12" fill="#E74C3C" stroke="white" stroke-width="2" class="pulse-marker"/>
+            <circle cx="840" cy="420" r="22" fill="none" stroke="#E74C3C" stroke-width="2" opacity="0.5" class="sos-ring"/>
+          </svg>
+          <div class="map-legend">
+            <div class="ml-item"><span class="ml-dot blue"></span>Volunteer</div>
+            <div class="ml-item"><span class="ml-dot green"></span>Normal</div>
+            <div class="ml-item"><span class="ml-dot orange"></span>High Density</div>
+            <div class="ml-item"><span class="ml-dot red"></span>Critical/SOS</div>
+          </div>
+          <div class="map-info-box" id="mapInfoBox" style="display:none">
+            <button class="info-close" onclick="document.getElementById('mapInfoBox').style.display='none'">✕</button>
+            <h4 id="infoBoxTitle">Checkpoint</h4>
+            <div id="infoBoxContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMMUNICATION ===== -->
+  <section class="page" id="page-communication">
+    <div class="page-header">
+      <h1>Communication Hub</h1>
+      <p>Push-to-talk walkie-talkie channels, SOS broadcasts, flash notifications, and area-specific messaging.</p>
+    </div>
+
+    <div class="comm-layout">
+      <div class="comm-sidebar">
+        <h3>Channels</h3>
+        <div class="channel-list">
+          <div class="channel-item active" onclick="selectChannel(this,'all-hands')"><div class="ch-icon">📢</div><div><div class="ch-name">All Hands</div><div class="ch-sub">Broadcast to all</div></div><div class="ch-badge">3</div></div>
+          <div class="channel-item" onclick="selectChannel(this,'medical')"><div class="ch-icon">🚑</div><div><div class="ch-name">Medical Team</div><div class="ch-sub">Doctors, Nurses</div></div><div class="ch-badge">1</div></div>
+          <div class="channel-item" onclick="selectChannel(this,'police')"><div class="ch-icon">👮</div><div><div class="ch-name">Police</div><div class="ch-sub">Security, Patrol</div></div></div>
+          <div class="channel-item" onclick="selectChannel(this,'pandharpur')"><div class="ch-icon">🏛️</div><div><div class="ch-name">Pandharpur Zone</div><div class="ch-sub">Entry &amp; Temple teams</div></div><div class="ch-badge sos-badge">SOS</div></div>
+          <div class="channel-item" onclick="selectChannel(this,'lonand')"><div class="ch-icon">📍</div><div><div class="ch-name">Lonand Zone</div><div class="ch-sub">km 140–155</div></div></div>
+        </div>
+
+        <h3 style="margin-top:20px">Quick Actions</h3>
+        <button class="sos-btn" onclick="openSosModal()">🆘 SEND SOS</button>
+        <button class="flash-btn" onclick="openFlashModal()">⚡ Flash Notification</button>
+      </div>
+
+      <div class="comm-main">
+        <div class="chat-header">
+          <span class="chat-channel-name" id="chatChannelName">📢 All Hands</span>
+          <div class="chat-status"><span class="online-dot"></span> 9,812 online</div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="msg sys"><div class="msg-text">📢 <strong>System:</strong> All hands channel – broadcasts go to all registered users.</div></div>
+          <div class="msg received">
+            <div class="msg-avatar">SC</div>
+            <div class="msg-bubble"><div class="msg-sender">Suresh Kale · Pune Zone</div><div class="msg-text">Crowd is building up near Swargate. Requesting 2 more volunteers.</div><div class="msg-time">10:42 AM</div></div>
+          </div>
+          <div class="msg sent">
+            <div class="msg-bubble right"><div class="msg-sender">You · Admin</div><div class="msg-text">Assigning Batch 7 – 3 volunteers dispatched to Swargate junction.</div><div class="msg-time">10:43 AM</div></div>
+          </div>
+          <div class="msg alert-msg"><div class="msg-text">🆘 <strong>SOS ALERT:</strong> Medical emergency at Lonand Bridge. VS-0087 activated SOS.</div></div>
+          <div class="msg received">
+            <div class="msg-avatar">AM</div>
+            <div class="msg-bubble"><div class="msg-sender">Dr. Anita More · Medical</div><div class="msg-text">Medical team dispatched. ETA 4 minutes.</div><div class="msg-time">10:51 AM</div></div>
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <button class="ptt-btn" id="pttBtn" onmousedown="startPTT()" onmouseup="stopPTT()">🎙️</button>
+          <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()" />
+          <button class="btn btn-primary sm" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title-wrap" style="margin-top:40px">
+      <h2 class="section-title">Recent Flash Notifications</h2>
+    </div>
+    <div class="notif-list" id="notifList">
+      <div class="notif-item sos"><div class="notif-type">🆘 SOS</div><div class="notif-content"><div class="notif-title">Medical Emergency – Lonand Bridge</div><div class="notif-detail">VS-0087 triggered SOS · Coordinates: 17.8N, 74.9E · Resolved in 6 min</div></div><div class="notif-time">10:49 AM</div></div>
+      <div class="notif-item warning"><div class="notif-type">⚡ Flash</div><div class="notif-content"><div class="notif-title">Route Diversion – NH-65 Junction</div><div class="notif-detail">AI recommends alternate route via Saswad bypass to ease congestion.</div></div><div class="notif-time">9:30 AM</div></div>
+      <div class="notif-item info"><div class="notif-type">ℹ️ Info</div><div class="notif-content"><div class="notif-title">Water Distribution – Camp 12 Replenished</div><div class="notif-detail">2,000 L water supplies added. Available for next 3 hours.</div></div><div class="notif-time">8:15 AM</div></div>
+    </div>
+  </section>
+
+  <!-- ===== LOST & FOUND ===== -->
+  <section class="page" id="page-lostfound">
+    <div class="page-header">
+      <h1>Lost &amp; Found</h1>
+      <p>Log lost items or missing persons, scan QR tags, and track resolution with volunteer assignment.</p>
+    </div>
+
+    <div class="lf-layout">
+      <div class="lf-form-card">
+        <h3>Report Lost / Found</h3>
+        <div class="lf-type-toggle">
+          <button class="lf-type active" id="lf-lost-btn" onclick="setLFType('lost',this)">🔍 Report Lost</button>
+          <button class="lf-type" id="lf-found-btn" onclick="setLFType('found',this)">✅ Report Found</button>
+        </div>
+        <div class="form-group"><label>Item / Person Description *</label><textarea id="lf-desc" rows="3" placeholder="e.g. Child, ~6 years, blue shirt, answers to 'Raju'"></textarea></div>
+        <div class="form-group"><label>Location Found / Last Seen *</label><input type="text" id="lf-loc" placeholder="e.g. Jejuri Temple Gate" /></div>
+        <div class="form-group"><label>Reporter Mobile</label><input type="tel" id="lf-mobile" placeholder="10-digit mobile number" /></div>
+        <div class="form-group">
+          <label>Scan QR Tag (if available)</label>
+          <div class="qr-scan-box" onclick="simulateQRScan()">
+            <div class="qr-scan-icon">📷</div>
+            <p>Tap to scan QR tag</p>
+          </div>
+          <div id="qr-scan-result" class="hidden qr-result"></div>
+        </div>
+        <button class="btn btn-primary" onclick="submitLFCase()">Submit Report</button>
+      </div>
+
+      <div class="lf-cases">
+        <div class="lf-cases-header">
+          <h3>Active Cases</h3>
+          <div class="lf-filter">
+            <button class="lf-filter-btn active" onclick="filterLF('all',this)">All (27)</button>
+            <button class="lf-filter-btn" onclick="filterLF('open',this)">Open (9)</button>
+            <button class="lf-filter-btn" onclick="filterLF('assigned',this)">Assigned (13)</button>
+            <button class="lf-filter-btn" onclick="filterLF('resolved',this)">Resolved (5)</button>
+          </div>
+        </div>
+        <div class="case-list" id="caseList">
+          <div class="case-card open" data-status="open">
+            <div class="case-type-badge lost">LOST</div>
+            <div class="case-body"><div class="case-title">Child – Boy, ~8 yrs, yellow kurta</div><div class="case-loc">📍 Pandharpur – Main Gate</div><div class="case-time">⏱ 12 min ago</div></div>
+            <div class="case-right"><div class="case-status open">Open</div><button class="btn-sm orange" onclick="assignVolunteer(this)">Assign</button></div>
+          </div>
+          <div class="case-card assigned" data-status="assigned">
+            <div class="case-type-badge found">FOUND</div>
+            <div class="case-body"><div class="case-title">Bag – Black backpack with ID tag</div><div class="case-loc">📍 Lonand Rest Point</div><div class="case-time">⏱ 34 min ago</div></div>
+            <div class="case-right"><div class="case-status assigned">Assigned – VS-0042</div><button class="btn-sm green" onclick="resolveCase(this)">Resolve</button></div>
+          </div>
+          <div class="case-card open" data-status="open">
+            <div class="case-type-badge lost">LOST</div>
+            <div class="case-body"><div class="case-title">Elderly Woman – ~65 yrs, white saree</div><div class="case-loc">📍 Saswad Chowk</div><div class="case-time">⏱ 5 min ago</div></div>
+            <div class="case-right"><div class="case-status open">Open</div><button class="btn-sm orange" onclick="assignVolunteer(this)">Assign</button></div>
+          </div>
+          <div class="case-card resolved" data-status="resolved">
+            <div class="case-type-badge lost">LOST</div>
+            <div class="case-body"><div class="case-title">Mobile Phone – Samsung, cracked screen</div><div class="case-loc">📍 Jejuri Camp</div><div class="case-time">✅ Resolved in 18 min</div></div>
+            <div class="case-right"><div class="case-status resolved">Resolved</div><button class="btn-sm grey" disabled>Done</button></div>
+          </div>
+          <div class="case-card assigned" data-status="assigned">
+            <div class="case-type-badge found">FOUND</div>
+            <div class="case-body"><div class="case-title">Child – Girl, ~5 yrs, pink dress, Riya</div><div class="case-loc">📍 Phaltan Water Station</div><div class="case-time">⏱ 1 hr ago</div></div>
+            <div class="case-right"><div class="case-status assigned">Assigned – VS-0091</div><button class="btn-sm green" onclick="resolveCase(this)">Resolve</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AI ALERTS ===== -->
+  <section class="page" id="page-ai">
+    <div class="page-header">
+      <h1>AI Alerts &amp; NLP Engine</h1>
+      <p>Intelligent decision-making for crowd flow, NLP-based incident parsing, and automated route suggestions.</p>
+    </div>
+
+    <div class="ai-layout">
+      <div class="ai-card">
+        <h3>🧠 NLP Incident Parser</h3>
+        <p class="ai-desc">Volunteers send voice/text reports in Marathi or Hindi. The AI extracts structured data and triggers actions automatically.</p>
+        <div class="nlp-demo">
+          <div class="nlp-input-area">
+            <label>Incoming Report (type or select example):</label>
+            <textarea id="nlpInput" rows="3" placeholder="e.g. Lonand bridge var gardi khup aahe, ek mahilela tras hoat aahe..."></textarea>
+            <div class="nlp-examples">
+              <button class="example-btn" onclick="setNLPExample(0)">Example 1 (Marathi)</button>
+              <button class="example-btn" onclick="setNLPExample(1)">Example 2 (Hindi)</button>
+              <button class="example-btn" onclick="setNLPExample(2)">Example 3 (English)</button>
+            </div>
+            <button class="btn btn-primary" style="margin-top:12px" onclick="parseNLP()">🤖 Parse with AI</button>
+          </div>
+          <div class="nlp-output" id="nlpOutput" style="display:none">
+            <h4>Extracted Information</h4>
+            <div class="nlp-fields" id="nlpFields"></div>
+            <div class="nlp-action" id="nlpAction"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-card">
+        <h3>🌊 Crowd Flow Decision Engine</h3>
+        <p class="ai-desc">AI monitors density at each checkpoint and auto-suggests diversions, volunteer deployment, and staging delays.</p>
+        <div class="flow-table">
+          <table class="data-table">
+            <thead><tr><th>Checkpoint</th><th>Density</th><th>Status</th><th>AI Recommendation</th></tr></thead>
+            <tbody>
+              <tr><td>Pune – Swargate</td><td><div class="density-bar" style="--pct:60%;--clr:#2DC653"></div> 60%</td><td><span class="badge-status active">Normal</span></td><td>No action needed</td></tr>
+              <tr><td>Saswad</td><td><div class="density-bar" style="--pct:72%;--clr:#4361EE"></div> 72%</td><td><span class="badge-status active">Normal</span></td><td>Monitor hourly</td></tr>
+              <tr><td>Jejuri</td><td><div class="density-bar" style="--pct:85%;--clr:#F5A623"></div> 85%</td><td><span class="badge-status on-duty">Elevated</span></td><td>⚠️ Deploy 50 more volunteers at temple entry</td></tr>
+              <tr><td>Lonand</td><td><div class="density-bar" style="--pct:93%;--clr:#E74C3C"></div> 93%</td><td><span class="badge-status off">Critical</span></td><td>🔴 Divert pilgrim flow via Natepute bypass</td></tr>
+              <tr><td>Pandharpur</td><td><div class="density-bar" style="--pct:98%;--clr:#E74C3C"></div> 98%</td><td><span class="badge-status off">Critical</span></td><td>🆘 Halt inflow, activate overflow camp</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title-wrap" style="margin-top:40px">
+      <h2 class="section-title">AI Decision Timeline</h2>
+    </div>
+    <div class="ai-timeline">
+      <div class="timeline-item"><div class="tl-time">10:52 AM</div><div class="tl-dot red"></div><div class="tl-content"><div class="tl-title">🔴 Critical Crowd Detected – Pandharpur</div><div class="tl-detail">Density 98% – AI auto-halted pilgrim inflow from Lonand and activated standby overflow camp at Sector 7.</div></div></div>
+      <div class="timeline-item"><div class="tl-time">10:35 AM</div><div class="tl-dot orange"></div><div class="tl-content"><div class="tl-title">⚠️ NLP Alert – "महिला बेशुद्ध पडली" (Woman fainted)</div><div class="tl-detail">NLP extracted: Location=Lonand, Type=Medical, Severity=High – Dispatched nearest medical team (VS-M-004).</div></div></div>
+      <div class="timeline-item"><div class="tl-time">9:50 AM</div><div class="tl-dot blue"></div><div class="tl-content"><div class="tl-title">ℹ️ Route Optimization – Jejuri Bypass Activated</div><div class="tl-detail">AI predicted congestion 40 min ahead and diverted 15% of westbound pilgrims via Jejuri temple bypass.</div></div></div>
+      <div class="timeline-item"><div class="tl-time">8:20 AM</div><div class="tl-dot green"></div><div class="tl-content"><div class="tl-title">✅ Volunteer Rebalancing Complete</div><div class="tl-detail">AI shifted 200 volunteers from under-utilized zones to Pandharpur surge areas. Coverage now 94%.</div></div></div>
+    </div>
+  </section>
+
+  <!-- ===== GAMIFICATION ===== -->
+  <section class="page" id="page-gamification">
+    <div class="page-header">
+      <h1>Volunteer Rewards &amp; Recognition</h1>
+      <p>Gamified certification, XP points, badges, and a live leaderboard to honor volunteer contributions.</p>
+    </div>
+
+    <div class="game-layout">
+      <div class="leaderboard-card">
+        <h3>🏆 Volunteer Leaderboard – vari 2025</h3>
+        <div class="lb-list">
+          <div class="lb-item rank-1"><div class="lb-rank">🥇</div><div class="lb-avatar" style="background:#F5A623">SK</div><div class="lb-info"><div class="lb-name">Suresh Kale</div><div class="lb-area">Pune Zone · Crowd Mgmt</div></div><div class="lb-score"><div class="lb-xp">4,820 XP</div><div class="lb-tasks">96 tasks</div></div></div>
+          <div class="lb-item rank-2"><div class="lb-rank">🥈</div><div class="lb-avatar" style="background:#9B9B9B">PD</div><div class="lb-info"><div class="lb-name">Priya Deshmukh</div><div class="lb-area">Jejuri · Food &amp; Water</div></div><div class="lb-score"><div class="lb-xp">4,210 XP</div><div class="lb-tasks">88 tasks</div></div></div>
+          <div class="lb-item rank-3"><div class="lb-rank">🥉</div><div class="lb-avatar" style="background:#CD7F32">MS</div><div class="lb-info"><div class="lb-name">Mahesh Shinde</div><div class="lb-area">Saswad · Route Guide</div></div><div class="lb-score"><div class="lb-xp">3,950 XP</div><div class="lb-tasks">82 tasks</div></div></div>
+          <div class="lb-item"><div class="lb-rank">4</div><div class="lb-avatar" style="background:#4361EE">VR</div><div class="lb-info"><div class="lb-name">Vivek Rane</div><div class="lb-area">Lonand · Security</div></div><div class="lb-score"><div class="lb-xp">3,640 XP</div><div class="lb-tasks">75 tasks</div></div></div>
+          <div class="lb-item"><div class="lb-rank">5</div><div class="lb-avatar" style="background:#2DC653">AN</div><div class="lb-info"><div class="lb-name">Ananya Naik</div><div class="lb-area">Pandharpur · Lost &amp; Found</div></div><div class="lb-score"><div class="lb-xp">3,380 XP</div><div class="lb-tasks">71 tasks</div></div></div>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <h3>My Volunteer Profile</h3>
+        <div class="profile-header">
+          <div class="profile-avatar">SK</div>
+          <div class="profile-meta">
+            <div class="profile-name">Suresh Kale</div>
+            <div class="profile-id">ID: VS-2025-0001</div>
+            <div class="profile-level">⭐ Level 12 – Senior Seva Warrior</div>
+          </div>
+        </div>
+        <div class="xp-bar-wrap">
+          <div class="xp-label"><span>4,820 XP</span><span>Next: 5,000 XP</span></div>
+          <div class="xp-track"><div class="xp-fill" style="width:96%"></div></div>
+        </div>
+        <h4 style="margin-top:20px;margin-bottom:12px">Earned Badges</h4>
+        <div class="badge-grid">
+          <div class="earn-badge earned"><div class="eb-icon">🌟</div><div class="eb-name">First Responder</div></div>
+          <div class="earn-badge earned"><div class="eb-icon">🏃</div><div class="eb-name">Marathon Seva</div></div>
+          <div class="earn-badge earned"><div class="eb-icon">🧭</div><div class="eb-name">Route Master</div></div>
+          <div class="earn-badge earned"><div class="eb-icon">🫂</div><div class="eb-name">Lost &amp; Found Hero</div></div>
+          <div class="earn-badge"><div class="eb-icon">🔒</div><div class="eb-name">10-Day Champion</div></div>
+          <div class="earn-badge"><div class="eb-icon">🔒</div><div class="eb-name">AI Collaborator</div></div>
+        </div>
+        <div class="cert-section">
+          <h4>Digital Certificate</h4>
+          <div class="cert-preview">
+            <div class="cert-header">🪔 VariSahayak · vari 2025</div>
+            <div class="cert-body">
+              <p>This is to certify that</p>
+              <h3>Suresh Kale</h3>
+              <p>has served as a <strong>Senior Volunteer</strong> during vari Pandharpur 2025<br/>contributing <strong>96 tasks · 4,820 XP · 14 days</strong> of dedicated service.</p>
+            </div>
+            <div class="cert-footer">Issued by: VariSahayak Platform · Verified: VS-2025-0001</div>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('Certificate PDF downloaded!')">⬇️ Download Certificate</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QR SCANNER ===== -->
+  <section class="page" id="page-qrscanner">
+    <div class="page-header">
+      <h1>📷 Pilgrim QR Scanner</h1>
+      <p>Scan a pilgrim's QR wristband or badge sticker. View their profile instantly and take action on their behalf — Lost &amp; Found, Complaint, or Resource Request.</p>
+    </div>
+
+    <div class="qrs-layout">
+
+      <!-- LEFT: Scanner + Pilgrim Picker -->
+      <div class="qrs-left">
+        <div class="scanner-panel">
+          <div class="scanner-viewport" id="scannerViewport">
+            <div class="scanner-frame">
+              <span class="sf-tl"></span><span class="sf-tr"></span>
+              <span class="sf-bl"></span><span class="sf-br"></span>
+            </div>
+            <div class="scanner-line" id="scannerLine"></div>
+            <div class="scanner-idle" id="scannerIdle">
+              <div class="si-icon">📷</div>
+              <div class="si-text">Point camera at QR sticker</div>
+            </div>
+            <div class="scanner-success hidden" id="scannerSuccess">
+              <div class="ss-icon">✅</div>
+              <div class="ss-text">QR Code Detected!</div>
+            </div>
+          </div>
+
+          <div class="scanner-demo-picker">
+            <p class="sdp-label">Demo – Select a sample pilgrim QR:</p>
+            <div class="sdp-chips">
+              <button class="sdp-btn" onclick="simulateScan('pilgrim-1')">Pilgrim 1 – Ramesh Kale</button>
+              <button class="sdp-btn" onclick="simulateScan('pilgrim-2')">Pilgrim 2 – Sunita Jadhav</button>
+              <button class="sdp-btn" onclick="simulateScan('pilgrim-3')">Pilgrim 3 – Vitthal Patil</button>
+              <button class="sdp-btn sdp-btn-child" onclick="simulateScan('pilgrim-4')">🔴 Lost Child – Raju</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pilgrim Profile Card -->
+        <div class="pilgrim-card hidden" id="pilgrimCard">
+          <div class="pc-header">
+            <div class="pc-avatar" id="pcAvatar">RK</div>
+            <div class="pc-meta">
+              <div class="pc-name" id="pcName">—</div>
+              <div class="pc-id" id="pcId">—</div>
+              <div class="pc-tag" id="pcTag">—</div>
+            </div>
+            <button class="pc-clear" onclick="clearScan()" title="Clear scan">✕</button>
+          </div>
+          <div class="pc-details" id="pcDetails"></div>
+          <div class="pc-health" id="pcHealth"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Action Panel -->
+      <div class="qrs-right">
+        <div class="action-panel hidden" id="actionPanel">
+          <h3 class="ap-title">Take Action on Behalf of Pilgrim</h3>
+          <p class="ap-sub">All actions are logged against the pilgrim's QR ID and assigned to the nearest available unit.</p>
+
+          <!-- Action Tabs -->
+          <div class="ap-tabs" id="apTabs">
+            <button class="ap-tab active" onclick="switchAPTab('lostfound',this)">
+              <span class="apt-icon">🔍</span>
+              <span class="apt-label">Lost &amp; Found</span>
+            </button>
+            <button class="ap-tab" onclick="switchAPTab('complaint',this)">
+              <span class="apt-icon">📋</span>
+              <span class="apt-label">Lodge Complaint</span>
+            </button>
+            <button class="ap-tab" onclick="switchAPTab('resource',this)">
+              <span class="apt-icon">🛒</span>
+              <span class="apt-label">Resource Need</span>
+            </button>
+          </div>
+
+          <!-- ── LOST & FOUND FORM ── -->
+          <div class="ap-content active" id="ap-lostfound">
+            <div class="ap-section-desc">Report this pilgrim as lost, or confirm they have been found. Nearest Lost &amp; Found units will be alerted immediately.</div>
+            <div class="form-group">
+              <label>Report Type *</label>
+              <div class="radio-row">
+                <label class="radio-opt">
+                  <input type="radio" name="lf-type" value="lost" checked /> <span>🔍 This pilgrim is Lost</span>
+                </label>
+                <label class="radio-opt">
+                  <input type="radio" name="lf-type" value="found" /> <span>✅ Pilgrim has been Found</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Current Location *</label>
+              <select id="ap-lf-location">
+                <option value="">Select current location</option>
+                <option>Pune – Swargate Gate 1</option>
+                <option>Saswad Village Chowk</option>
+                <option>Jejuri Temple Entrance</option>
+                <option>Lonand Bridge Area</option>
+                <option>Phaltan Water Station</option>
+                <option>Pandharpur – Main Entry</option>
+                <option>Pandharpur – Temple Zone</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Additional Notes</label>
+              <textarea id="ap-lf-notes" rows="2" placeholder="Any visible distress, injuries, or identifying details..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Alert Units</label>
+              <div class="ap-unit-chips">
+                <label class="chip active"><input type="checkbox" checked /> Lost &amp; Found Volunteers</label>
+                <label class="chip active"><input type="checkbox" checked /> Medical Team</label>
+                <label class="chip"><input type="checkbox" /> Police</label>
+                <label class="chip"><input type="checkbox" /> NGO Worker</label>
+              </div>
+            </div>
+            <button class="btn btn-primary ap-submit" onclick="submitAPAction('lostfound')">🔍 Alert Units &amp; Log Case</button>
+          </div>
+
+          <!-- ── COMPLAINT FORM ── -->
+          <div class="ap-content" id="ap-complaint">
+            <div class="ap-section-desc">Lodge a complaint on behalf of this pilgrim. It will be routed to the appropriate authority and tracked to resolution.</div>
+            <div class="form-group">
+              <label>Complaint Type *</label>
+              <select id="ap-complaint-type">
+                <option value="">Select complaint type</option>
+                <option value="harassment">👤 Harassment / Misconduct</option>
+                <option value="theft">🔓 Theft / Pickpocket</option>
+                <option value="overcrowding">👥 Dangerous Overcrowding</option>
+                <option value="facility">🚻 Facility Issue (toilet, water, etc.)</option>
+                <option value="volunteer">🙋 Volunteer Misconduct</option>
+                <option value="medical-neglect">🚑 Medical Negligence</option>
+                <option value="other">📝 Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Incident Location *</label>
+              <select id="ap-complaint-loc">
+                <option value="">Select location</option>
+                <option>Pune – Swargate</option>
+                <option>Saswad</option>
+                <option>Jejuri</option>
+                <option>Lonand</option>
+                <option>Phaltan</option>
+                <option>Pandharpur – Entry Gate</option>
+                <option>Pandharpur – Temple Zone</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description *</label>
+              <textarea id="ap-complaint-desc" rows="3" placeholder="Describe what happened, when, and who was involved..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Route To</label>
+              <div class="ap-unit-chips">
+                <label class="chip active"><input type="checkbox" checked /> Police</label>
+                <label class="chip"><input type="checkbox" /> NGO Grievance Cell</label>
+                <label class="chip"><input type="checkbox" /> Area Coordinator</label>
+              </div>
+            </div>
+            <button class="btn btn-primary ap-submit" onclick="submitAPAction('complaint')">📋 Lodge Complaint</button>
+          </div>
+
+          <!-- ── RESOURCE NEED FORM ── -->
+          <div class="ap-content" id="ap-resource">
+            <div class="ap-section-desc">Request a resource for this pilgrim. The nearest supply unit will be dispatched immediately.</div>
+            <div class="form-group">
+              <label>Resource Needed *</label>
+              <div class="resource-grid">
+                <label class="res-opt" onclick="selectResource(this)">
+                  <input type="radio" name="res-type" value="water" />
+                  <div class="res-card">
+                    <div class="res-icon">💧</div>
+                    <div class="res-name">Water</div>
+                  </div>
+                </label>
+                <label class="res-opt" onclick="selectResource(this)">
+                  <input type="radio" name="res-type" value="food" />
+                  <div class="res-card">
+                    <div class="res-icon">🍱</div>
+                    <div class="res-name">Food / Prasad</div>
+                  </div>
+                </label>
+                <label class="res-opt" onclick="selectResource(this)">
+                  <input type="radio" name="res-type" value="medical" />
+                  <div class="res-card">
+                    <div class="res-icon">🩹</div>
+                    <div class="res-name">Medical Aid</div>
+                  </div>
+                </label>
+                <label class="res-opt" onclick="selectResource(this)">
+                  <input type="radio" name="res-type" value="shelter" />
+                  <div class="res-card">
+                    <div class="res-icon">🏕️</div>
+                    <div class="res-name">Shelter / Rest</div>
+                  </div>
+                </label>
+                <label class="res-opt" onclick="selectResource(this)">
+                  <input type="radio" name="res-type" value="wheelchair" />
+                  <div class="res-card">
+                    <div class="res-icon">♿</div>
+                    <div class="res-name">Wheelchair</div>
+                  </div>
+                </label>
+                <label class="res-opt" onclick="selectResource(this)">
+                  <input type="radio" name="res-type" value="other" />
+                  <div class="res-card">
+                    <div class="res-icon">📦</div>
+                    <div class="res-name">Other</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Urgency Level *</label>
+              <div class="urgency-row">
+                <label class="urgency-opt">
+                  <input type="radio" name="urgency" value="normal" checked />
+                  <span class="urg-badge normal">Normal</span>
+                </label>
+                <label class="urgency-opt">
+                  <input type="radio" name="urgency" value="urgent" />
+                  <span class="urg-badge urgent">Urgent</span>
+                </label>
+                <label class="urgency-opt">
+                  <input type="radio" name="urgency" value="critical" />
+                  <span class="urg-badge critical">Critical</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Delivery Location / Notes</label>
+              <input type="text" id="ap-res-loc" placeholder="e.g. Near Jejuri temple east gate, pilgrim is seated" />
+            </div>
+            <button class="btn btn-primary ap-submit" onclick="submitAPAction('resource')">🛒 Request Resource</button>
+          </div>
+
+          <!-- ── CONFIRMATION ── -->
+          <div class="ap-confirm hidden" id="apConfirm">
+            <div class="apconf-icon">✅</div>
+            <div class="apconf-title" id="apConfTitle">Action Submitted</div>
+            <div class="apconf-id" id="apConfId"></div>
+            <div class="apconf-detail" id="apConfDetail"></div>
+            <div class="apconf-actions">
+              <button class="btn btn-outline" onclick="resetActionPanel()">← Take Another Action</button>
+              <button class="btn btn-primary" onclick="clearScan()">✓ Done – Scan Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder when no scan -->
+        <div class="qrs-placeholder" id="qrsPlaceholder">
+          <div class="qrsp-icon">📲</div>
+          <div class="qrsp-title">No Pilgrim Scanned Yet</div>
+          <div class="qrsp-sub">Scan a QR sticker from the left panel to load a pilgrim's profile and take action on their behalf.</div>
+          <div class="qrsp-steps">
+            <div class="step"><span class="step-num">1</span><span>Scan pilgrim QR wristband</span></div>
+            <div class="step"><span class="step-num">2</span><span>View pilgrim profile &amp; health info</span></div>
+            <div class="step"><span class="step-num">3</span><span>Choose action: Lost/Found, Complaint, or Resource</span></div>
+            <div class="step"><span class="step-num">4</span><span>Submit – units alerted automatically</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== SOS ALARM OVERLAY ===== -->
+<div class="sos-alarm-overlay" id="sosAlarmOverlay">
+  <div class="sos-alarm-inner">
+    <div class="sos-alarm-icon">🆘</div>
+    <div class="sos-alarm-title">SOS ALERT ACTIVE</div>
+    <div class="sos-alarm-msg" id="sosAlarmMsg">Emergency alert sent to all teams</div>
+    <div class="sos-alarm-meta" id="sosAlarmMeta"></div>
+    <div class="sos-alarm-actions">
+      <button class="sos-alarm-dismiss" onclick="dismissSOSAlarm()">✓ Acknowledge &amp; Dismiss</button>
+      <button class="sos-alarm-dispatch" onclick="dispatchTeam()">🚑 Dispatch Emergency Team</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SOS MODAL ===== -->
+<div class="modal-backdrop" id="sosModalBackdrop" onclick="closeSosModal()"></div>
+<div class="modal" id="sosModal">
+  <div class="modal-header sos-header">
+    <div class="modal-title-row">
+      <span class="modal-icon-sos">🆘</span>
+      <div>
+        <div class="modal-title">Send SOS Alert</div>
+        <div class="modal-subtitle">This will trigger an emergency alarm for ALL teams on ground</div>
+      </div>
+    </div>
+    <button class="modal-close" onclick="closeSosModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="sos-warning-banner">
+      ⚠️ <strong>WARNING:</strong> Sending SOS will immediately broadcast a loud alarm alert to all dashboards and registered devices.
+    </div>
+    <div class="form-group">
+      <label>Emergency Type *</label>
+      <select id="sos-type">
+        <option value="">Select Emergency Type</option>
+        <option value="Medical Emergency">🚑 Medical Emergency</option>
+        <option value="Crowd Stampede Risk">🏃 Crowd Stampede Risk</option>
+        <option value="Missing Person">🔍 Missing Person</option>
+        <option value="Fire / Hazard">🔥 Fire / Hazard</option>
+        <option value="Security Threat">👮 Security Threat</option>
+        <option value="Infrastructure Failure">🏗️ Infrastructure Failure</option>
+        <option value="Other Emergency">⚠️ Other Emergency</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Location *</label>
+      <select id="sos-location">
+        <option value="">Select Location</option>
+        <option>Pune – Swargate</option>
+        <option>Saswad</option>
+        <option>Jejuri</option>
+        <option>Lonand</option>
+        <option>Phaltan</option>
+        <option>Pandharpur – Entry Gate</option>
+        <option>Pandharpur – Temple Zone</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Emergency Message *</label>
+      <textarea id="sos-message" rows="3" placeholder="Describe the emergency clearly — what happened, how many people affected, immediate needs..."></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline" onclick="closeSosModal()">Cancel</button>
+    <button class="btn btn-sos" onclick="sendSOS()">🆘 ACTIVATE SOS ALARM</button>
+  </div>
+</div>
+
+<!-- ===== FLASH NOTIFICATION MODAL ===== -->
+<div class="modal-backdrop" id="flashModalBackdrop" onclick="closeFlashModal()"></div>
+<div class="modal" id="flashModal">
+  <div class="modal-header flash-header">
+    <div class="modal-title-row">
+      <span class="modal-icon-flash">⚡</span>
+      <div>
+        <div class="modal-title">Send Flash Notification</div>
+        <div class="modal-subtitle">Delivered instantly to registered devices in selected zones</div>
+      </div>
+    </div>
+    <button class="modal-close" onclick="closeFlashModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="form-grid" style="margin-bottom:16px">
+      <div class="form-group">
+        <label>Target Zone *</label>
+        <select id="flash-zone">
+          <option value="All Zones">📢 All Zones (Broadcast)</option>
+          <option value="Pune – Swargate">Pune – Swargate</option>
+          <option value="Saswad">Saswad</option>
+          <option value="Jejuri">Jejuri</option>
+          <option value="Lonand">Lonand</option>
+          <option value="Phaltan">Phaltan</option>
+          <option value="Pandharpur – Entry Gate">Pandharpur – Entry Gate</option>
+          <option value="Pandharpur – Temple Zone">Pandharpur – Temple Zone</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Notification Type *</label>
+        <select id="flash-type">
+          <option value="info">ℹ️ General Info</option>
+          <option value="warning">⚠️ Warning</option>
+          <option value="route">🗺️ Route Change</option>
+          <option value="supply">🛒 Supply Update</option>
+          <option value="weather">🌧️ Weather Alert</option>
+          <option value="crowd">👥 Crowd Advisory</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px">
+      <label>Target Recipient Group</label>
+      <div class="recipient-chips" id="recipientChips">
+        <label class="chip active"><input type="checkbox" value="All Staff" checked onchange="toggleChip(this)" /> All Staff</label>
+        <label class="chip"><input type="checkbox" value="Volunteers" onchange="toggleChip(this)" /> Volunteers</label>
+        <label class="chip"><input type="checkbox" value="Medical" onchange="toggleChip(this)" /> Medical</label>
+        <label class="chip"><input type="checkbox" value="Police" onchange="toggleChip(this)" /> Police</label>
+        <label class="chip"><input type="checkbox" value="NGO" onchange="toggleChip(this)" /> NGO</label>
+        <label class="chip"><input type="checkbox" value="Coordinators" onchange="toggleChip(this)" /> Coordinators</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notification Message *</label>
+      <textarea id="flash-message" rows="3" placeholder="Write a clear, concise message. It will appear as a push notification on all registered devices in the selected zone..."></textarea>
+    </div>
+    <div class="flash-preview-box" id="flashPreviewBox">
+      <div class="fp-label">📱 Preview on Device</div>
+      <div class="fp-notif">
+        <div class="fp-app">VariSahayak</div>
+        <div class="fp-text" id="fpPreviewText">Your message will appear here...</div>
+        <div class="fp-time">now</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline" onclick="closeFlashModal()">Cancel</button>
+    <div class="flash-recipient-count" id="flashRecipientCount">📤 Sending to: <strong>All Staff</strong></div>
+    <button class="btn btn-flash" onclick="sendFlash()">⚡ Send Flash Notification</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
