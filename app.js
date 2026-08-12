@@ -36,9 +36,10 @@ function switchTab(groupId, contentId, btn) {
 // ===== TOAST =====
 function showToast(msg, duration = 3000) {
   const toast = document.getElementById('toast');
+  clearTimeout(window._toastTimer);
   toast.textContent = msg;
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), duration);
+  window._toastTimer = setTimeout(() => toast.classList.remove('show'), duration);
 }
 
 // ===== REGISTRATION =====
@@ -49,8 +50,7 @@ const allMembers = [
   { id: 'VS-2025-0003', name: 'Constable Vivek Rane', role: 'Police Officer', area: 'Lonand', task: 'Security Patrol', status: 'active' },
   { id: 'VS-2025-0004', name: 'Priya Deshmukh', role: 'NGO Worker', area: 'Jejuri', task: 'Food & Water', status: 'on-duty' },
   { id: 'VS-2025-0005', name: 'Mahesh Shinde', role: 'Area Coordinator', area: 'Saswad', task: 'Route Guidance', status: 'off' },
-];
-
+];let memberFilter = { role: '', query: '' };
 function registerPerson() {
   const name = document.getElementById('reg-name').value.trim();
   const mobile = document.getElementById('reg-mobile').value.trim();
@@ -114,15 +114,26 @@ function renderMemberTable(members) {
   `).join('');
 }
 
-function filterTable(role) {
-  const filtered = role ? allMembers.filter(m => m.role === role) : allMembers;
+function applyMemberFilters() {
+  const lowerQuery = memberFilter.query.toLowerCase();
+  const roleFiltered = memberFilter.role ? allMembers.filter(m => m.role === memberFilter.role) : allMembers;
+  const filtered = lowerQuery
+    ? roleFiltered.filter(m => m.name.toLowerCase().includes(lowerQuery)
+      || m.id.toLowerCase().includes(lowerQuery)
+      || m.area.toLowerCase().includes(lowerQuery)
+      || m.task.toLowerCase().includes(lowerQuery))
+    : roleFiltered;
   renderMemberTable(filtered);
 }
 
+function filterTable(role) {
+  memberFilter.role = role;
+  applyMemberFilters();
+}
+
 function searchTable(q) {
-  const lower = q.toLowerCase();
-  const filtered = allMembers.filter(m => m.name.toLowerCase().includes(lower) || m.id.toLowerCase().includes(lower));
-  renderMemberTable(filtered);
+  memberFilter.query = q;
+  applyMemberFilters();
 }
 
 // ===== BULK CSV UPLOAD (real parsing) =====
@@ -143,8 +154,8 @@ function handleDrop(event) {
 }
 
 function readCSVFile(file) {
-  if (!file.name.match(/\.(csv|xlsx|xls)$/i)) {
-    showToast('⚠️ Please upload a .csv, .xlsx or .xls file.');
+  if (!file.name.match(/\.csv$/i)) {
+    showToast('⚠️ Please upload a .csv file only.');
     return;
   }
   const reader = new FileReader();
@@ -260,39 +271,43 @@ function resolveAlert(btn) {
 }
 
 // ===== MAP =====
-function toggleLayer(layer) {
-  const layerMap = { volunteers: 'volunteers-layer', medical: 'medical-layer' };
-  const id = layerMap[layer];
-  if (id) {
+const mapState = { volunteers: true, crowd: true, medical: true, route: true };
+let mapZoom = 1;
+
+function toggleLayer(layer, checkbox) {
+  mapState[layer] = checkbox.checked;
+  const layerMap = {
+    volunteers: ['volunteers-layer'],
+    medical: ['medical-layer'],
+    crowd: ['crowd-lonand','crowd-pandharpur','crowd-jejuri'],
+    route: ['route-path'],
+  };
+  const ids = layerMap[layer] || [];
+  ids.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.style.display = el.style.display === 'none' ? '' : 'none';
-  }
-  if (layer === 'crowd') {
-    ['crowd-lonand','crowd-pandharpur','crowd-jejuri'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = el.style.display === 'none' ? '' : 'none';
-    });
-  }
-  if (layer === 'route') {
-    const el = document.querySelector('.route-path');
-    if (el) el.style.display = el.style.display === 'none' ? '' : 'none';
-  }
+    if (el) el.style.display = mapState[layer] ? '' : 'none';
+  });
+  const label = checkbox.closest('.toggle-item');
+  if (label) label.classList.toggle('active', mapState[layer]);
+  const labelText = layer.charAt(0).toUpperCase() + layer.slice(1).replace(/([A-Z])/g, ' $1');
+  showToast(`${mapState[layer] ? 'Showing' : 'Hiding'} ${labelText.trim()} layer`, 1200);
 }
 
 function selectCheckpoint(el, name, flow, status, volunteers) {
   document.querySelectorAll('.cp-item').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
+  if (el && el.classList.contains('cp-item')) el.classList.add('active');
+  document.querySelectorAll('.checkpoint-pin').forEach(pin => pin.classList.toggle('active', pin.dataset.checkpoint === name));
 
   const box = document.getElementById('mapInfoBox');
   document.getElementById('infoBoxTitle').textContent = '📍 ' + name;
   const statusColor = status === 'Normal' ? '#2DC653' : status.includes('CRITICAL') ? '#E74C3C' : '#F5A623';
   document.getElementById('infoBoxContent').innerHTML = `
-    <div style="line-height:2;font-size:13px">
+    <div style="line-height:1.8;font-size:13px">
       <b>Pilgrim Flow:</b> ${flow || '—'} pilgrims/hr<br/>
       <b>Status:</b> <span style="color:${statusColor};font-weight:700">${status || '—'}</span><br/>
       <b>On Ground:</b> ${volunteers || '—'}<br/>
     </div>
-    <div style="margin-top:10px;display:flex;gap:8px">
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn-sm blue" onclick="showToast('Team dispatched to ${name}')">Dispatch Team</button>
       <button class="btn-sm orange" onclick="showToast('Alert sent for ${name}')">Send Alert</button>
     </div>
@@ -785,5 +800,20 @@ function resetActionPanel() {
 document.addEventListener('DOMContentLoaded', () => {
   renderMemberTable(allMembers);
   renderChat('all-hands');
+  zoomMap('reset');
+  const defaultItem = document.querySelector('.cp-item.active');
+  if (defaultItem) selectCheckpoint(defaultItem,'Pune – Swargate','2,430','Normal','320 volunteers');
 });
+
+function zoomMap(direction) {
+  if (direction === 'reset') {
+    mapZoom = 1;
+  } else if (direction === 'in') {
+    mapZoom = Math.min(1.5, mapZoom + 0.1);
+  } else if (direction === 'out') {
+    mapZoom = Math.max(0.8, mapZoom - 0.1);
+  }
+  document.getElementById('mapSvg').style.transform = `scale(${mapZoom})`;
+  document.getElementById('mapZoomLabel').textContent = `${Math.round(mapZoom * 100)}%`;
+}
 
