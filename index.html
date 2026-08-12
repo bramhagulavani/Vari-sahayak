@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" />
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
 </head>
 <body>
 
@@ -338,9 +340,15 @@
 
   <!-- ===== LIVE MAP ===== -->
   <section class="page" id="page-map">
-    <div class="page-header">
-      <h1>Live Map &amp; Tracking</h1>
-      <p>Real-time visualization of the vari track, crowd density, volunteer positions, and emergency zones.</p>
+    <div class="page-header map-page-header">
+      <div>
+        <h1>Live Map &amp; Tracking</h1>
+        <p>Real-time visualization of the vari track, crowd density, volunteer positions, and emergency zones.</p>
+      </div>
+      <div class="view-toggle" id="mapViewToggle">
+        <button class="vt-btn active" id="vtBtn3D" onclick="setMapView('3d')">🧭 3D View</button>
+        <button class="vt-btn" id="vtBtn2D" onclick="setMapView('2d')">🗺️ 2D View</button>
+      </div>
     </div>
 
     <div class="map-layout">
@@ -355,7 +363,8 @@
 
         <h3 style="margin-top:20px">Checkpoints</h3>
         <div class="checkpoint-list">
-          <div class="cp-item active" onclick="selectCheckpoint(this, 'Pune – Swargate', '2,430', 'Normal', '320 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Pune – Swargate</div><div class="cp-info">2,430 pilgrims/hr</div></div></div>
+          <div class="cp-item active" onclick="selectCheckpoint(this, 'Alandi', '2,150', 'Normal', '280 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Alandi</div><div class="cp-info">🚩 Wari Start Point</div></div></div>
+          <div class="cp-item" onclick="selectCheckpoint(this, 'Pune – Swargate', '2,430', 'Normal', '320 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Pune – Swargate</div><div class="cp-info">2,430 pilgrims/hr</div></div></div>
           <div class="cp-item" onclick="selectCheckpoint(this, 'Saswad', '1,820', 'Normal', '185 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Saswad</div><div class="cp-info">1,820 pilgrims/hr</div></div></div>
           <div class="cp-item" onclick="selectCheckpoint(this, 'Jejuri', '3,100', 'Elevated', '410 volunteers')"><div class="cp-dot green"></div><div><div class="cp-name">Jejuri</div><div class="cp-info">3,100 pilgrims/hr</div></div></div>
           <div class="cp-item" onclick="selectCheckpoint(this, 'Lonand', '4,800', 'High Density', '540 volunteers')"><div class="cp-dot orange"></div><div><div class="cp-name">Lonand</div><div class="cp-info">⚠️ High Density</div></div></div>
@@ -365,12 +374,28 @@
       </div>
 
       <div class="map-container">
-        <div class="map-canvas" id="mapCanvas">
+        <div class="map-canvas map-canvas-3d" id="map3dWrap">
+          <div id="map3dCanvas" class="map3d-canvas"></div>
+          <div class="map3d-loading" id="map3dLoading">🏔️ Loading real terrain &amp; road data…</div>
+          <div class="map3d-hint">🖱️ Drag to rotate/pitch · Scroll to zoom · Click a pin for details</div>
+          <div class="map-legend">
+            <div class="ml-item"><span class="ml-dot blue"></span>Volunteer</div>
+            <div class="ml-item"><span class="ml-dot green"></span>Normal</div>
+            <div class="ml-item"><span class="ml-dot orange"></span>High Density</div>
+            <div class="ml-item"><span class="ml-dot red"></span>Critical/SOS</div>
+          </div>
+          <div class="map-info-box" id="mapInfoBox3D" style="display:none">
+            <button class="info-close" onclick="document.getElementById('mapInfoBox3D').style.display='none'">✕</button>
+            <h4 id="infoBoxTitle3D">Checkpoint</h4>
+            <div id="infoBoxContent3D"></div>
+          </div>
+        </div>
+        <div class="map-canvas" id="mapCanvas" style="display:none">
           <svg viewBox="0 0 900 500" class="map-svg" id="mapSvg">
             <rect width="900" height="500" fill="#EEF2F7"/>
             <ellipse cx="250" cy="200" rx="40" ry="20" fill="#BFD7EA" opacity="0.7"/>
             <ellipse cx="700" cy="350" rx="60" ry="25" fill="#BFD7EA" opacity="0.7"/>
-            <path class="route-path" d="M 80,80 Q 200,120 300,180 Q 420,240 500,280 Q 620,330 700,350 Q 780,370 840,420" stroke="#2DC653" stroke-width="5" fill="none" stroke-dasharray="10,4" stroke-linecap="round"/>
+            <path class="route-path" d="M 40,40 Q 60,60 80,80 Q 200,120 300,180 Q 420,240 500,280 Q 620,330 700,350 Q 780,370 840,420" stroke="#2DC653" stroke-width="5" fill="none" stroke-dasharray="10,4" stroke-linecap="round"/>
             <ellipse id="crowd-lonand" cx="500" cy="280" rx="60" ry="35" fill="#F5A623" opacity="0.35"/>
             <ellipse id="crowd-pandharpur" cx="750" cy="390" rx="80" ry="45" fill="#E74C3C" opacity="0.3"/>
             <ellipse id="crowd-jejuri" cx="340" cy="200" rx="50" ry="30" fill="#F5A623" opacity="0.25"/>
@@ -385,6 +410,8 @@
               <rect x="480" y="255" width="20" height="20" fill="#E74C3C" rx="3"/><text x="490" y="269" text-anchor="middle" font-size="10" fill="white">+</text>
               <rect x="720" y="360" width="20" height="20" fill="#E74C3C" rx="3"/><text x="730" y="374" text-anchor="middle" font-size="10" fill="white">+</text>
             </g>
+            <circle cx="40" cy="40" r="6" fill="#2DC653" stroke="#fff" stroke-width="2"/>
+            <text x="40" y="28" font-size="11" fill="#333" font-weight="700">🚩 Alandi (Start)</text>
             <text x="80" y="72" font-size="11" fill="#333" font-weight="600">Pune</text>
             <text x="240" y="172" font-size="11" fill="#333" font-weight="600">Saswad</text>
             <text x="315" y="196" font-size="11" fill="#333" font-weight="600">Jejuri</text>
@@ -1082,6 +1109,7 @@
 </div>
 
 <div class="toast" id="toast"></div>
+<script src="map3d.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

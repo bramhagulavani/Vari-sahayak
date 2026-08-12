@@ -709,6 +709,106 @@ textarea { resize: vertical; }
 .rb-fill.orange { background: linear-gradient(90deg, var(--orange), #FBBF24); }
 
 /* ===== MAP ===== */
+.map-page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.vt-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-3);
+  transition: var(--transition-fast);
+}
+.vt-btn:hover { color: var(--text-1); }
+.vt-btn.active { background: var(--surface); color: var(--blue); box-shadow: var(--shadow-xs); }
+
+.map-canvas-3d { padding: 0; background: linear-gradient(180deg,#eef2f7,#e4e9f1); }
+.map3d-canvas { width: 100%; height: 520px; display: block; cursor: grab; }
+.map3d-canvas:active { cursor: grabbing; }
+.map3d-hint {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(17,24,39,.72);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  z-index: 5;
+}
+.map3d-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(238,242,247,.9);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-2);
+  z-index: 10;
+}
+@media (max-width: 640px) { .map3d-canvas { height: 380px; } }
+
+/* MapLibre custom marker elements */
+.m3d-pin-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.35);
+  position: absolute; top: 2px; left: 2px;
+}
+.m3d-pulse-ring {
+  position: absolute;
+  top: -6px; left: -6px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  opacity: 0.55;
+  animation: m3dPulse 1.6s ease-out infinite;
+}
+@keyframes m3dPulse {
+  0%   { transform: scale(0.4); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.m3d-small-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1.5px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+.m3d-medical-pin {
+  width: 20px; height: 20px;
+  background: #E74C3C;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+.m3d-label {
+  background: rgba(17,24,39,.82);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .map-layout { display: grid; grid-template-columns: 248px 1fr; gap: 20px; }
 .map-sidebar {
   background: var(--surface);
